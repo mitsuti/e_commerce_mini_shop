@@ -1,0 +1,35 @@
+# Simple .htaccess for E-commerce Mini Shop
+RewriteEngine On
+
+# Hide sensitive files
+<Files "*.sql">
+    Deny from all
+</Files>
+
+<Files "*.log">
+    Deny from all
+</Files>
+
+# Pretty URLs
+RewriteRule ^product/([a-zA-Z0-9\-]+)/?$ product.php?slug=$1 [L,QSA]
+RewriteRule ^category/([a-zA-Z0-9\-]+)/?$ products.php?category=$1 [L,QSA]
+RewriteRule ^admin/?$ admin/index.php [L]
+RewriteRule ^admin/dashboard/?$ admin/dashboard.php [L]
+RewriteRule ^search/?$ products.php [L,QSA]
+RewriteRule ^cart/?$ cart.php [L]
+RewriteRule ^checkout/?$ checkout.php [L]
+RewriteRule ^login/?$ login.php [L]
+RewriteRule ^register/?$ register.php [L]
+
+# Remove .php extension
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([^\.]+)$ $1.php [NC,L]
+
+# Set charset
+AddDefaultCharset UTF-8
+
+# Enable error reporting
+php_flag display_errors On
+php_flag display_startup_errors On
+php_value error_reporting E_ALL

@@ -1,0 +1,65 @@
+# E-COMMERCE MINI SHOP - Simple .htaccess Configuration
+
+# Enable URL Rewriting
+RewriteEngine On
+
+# Hide sensitive files
+<Files "*.sql">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+<Files "*.log">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+# Protect config directory
+<Directory "config">
+    Order Allow,Deny
+    Deny from all
+</Directory>
+
+# Protect database directory
+<Directory "database">
+    Order Allow,Deny
+    Deny from all
+</Directory>
+
+# Pretty URLs for products
+RewriteRule ^product/([a-zA-Z0-9\-]+)/?$ product.php?slug=$1 [L,QSA]
+
+# Pretty URLs for categories
+RewriteRule ^category/([a-zA-Z0-9\-]+)/?$ products.php?category=$1 [L,QSA]
+
+# Pretty URLs for admin
+RewriteRule ^admin/?$ admin/index.php [L]
+RewriteRule ^admin/dashboard/?$ admin/dashboard.php [L]
+
+# Pretty URLs for search
+RewriteRule ^search/?$ products.php [L,QSA]
+
+# Pretty URLs for cart
+RewriteRule ^cart/?$ cart.php [L]
+
+# Pretty URLs for checkout
+RewriteRule ^checkout/?$ checkout.php [L]
+
+# Pretty URLs for login
+RewriteRule ^login/?$ login.php [L]
+
+# Pretty URLs for register
+RewriteRule ^register/?$ register.php [L]
+
+# Remove .php extension from URLs
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([^\.]+)$ $1.php [NC,L]
+
+# Set default charset
+AddDefaultCharset UTF-8
+
+# Enable error reporting for development
+php_flag display_errors On
+php_flag display_startup_errors On
+php_value error_reporting E_ALL
